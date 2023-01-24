@@ -15,9 +15,9 @@
 # Install the requirements using a proxy or not.
 try: 
   os.environ["PROXY"]
-  !pip3 install --proxy $PROXY -r requirements.txt --progress-bar off
+  !pip3 install --proxy $PROXY -r Code/requirements.txt --progress-bar off
 except:
-  !pip3 install -r requirements.txt --progress-bar off
+  !pip3 install -r Code/requirements.txt --progress-bar off
   
 # Create the directories and upload data
 
@@ -56,5 +56,5 @@ except:
 !hadoop fs -mkdir -p $STORAGE/datalake
 !hadoop fs -mkdir -p $STORAGE/datalake/data
 !hadoop fs -mkdir -p $STORAGE/datalake/data/churn
-!hadoop fs -copyFromLocal /home/cdsw/raw/WA_Fn-UseC_-Telco-Customer-Churn-.csv $STORAGE/datalake/data/churn/WA_Fn-UseC_-Telco-Customer-Churn-.csv
+!hadoop fs -copyFromLocal /home/cdsw/Code/raw/WA_Fn-UseC_-Telco-Customer-Churn-.csv $STORAGE/datalake/data/churn/WA_Fn-UseC_-Telco-Customer-Churn-.csv
 
