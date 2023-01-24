@@ -8,8 +8,16 @@
 # to store hive data. On AWS it will s3a://[something], on Azure it will be 
 # abfs://[something] and on CDSW cluster, it will be hdfs://[something]
 
-# Install the requirements
-!pip3 install -r requirements.txt --progress-bar off
+# In the case of an air gap cluster, a proxy is used to download the python libraries, the url needs to be set in the environment variables under the user settings in the CML workspace.
+# Make sure the variable name matches PROXY and indicate the https url provided and you start a new session after updating the Env Variables.
+# If no proxy is specified, the script will assume access to internet.
+
+# Install the requirements using a proxy or not.
+try: 
+  os.environ["PROXY"]
+  !pip3 install --proxy $PROXY -r requirements.txt --progress-bar off
+except:
+  !pip3 install -r requirements.txt --progress-bar off
   
 # Create the directories and upload data
 
