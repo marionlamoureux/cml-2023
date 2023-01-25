@@ -134,7 +134,7 @@ cols = (('gender', True),
         ('MonthlyCharges', False),
         ('TotalCharges', False))
 
-
+database_name = os.environ["HOL_DATABASE_NAME"]
 # This is a fail safe incase the hive table did not get created in the last step.
 try:
     spark = SparkSession\
@@ -143,8 +143,8 @@ try:
         .master("local[*]")\
         .getOrCreate()
 
-    if (spark.sql("SELECT count(*) FROM default.telco_churn").collect()[0][0] > 0):
-        df = spark.sql("SELECT * FROM default.telco_churn").toPandas()
+    if (spark.sql(f"SELECT count(*) FROM {database_name}.telco_churn").collect()[0][0] > 0):
+        df = spark.sql(f"SELECT * FROM {database_name}.telco_churn").toPandas()
 except:
     print("Hive table has not been created")
     df = pd.read_csv(os.path.join(
