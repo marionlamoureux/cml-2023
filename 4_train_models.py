@@ -21,6 +21,7 @@
 # * **Name** : Train Mdoel
 # * **Script** : 4_train_models.py
 # * **Arguments** : _Leave blank_
+# * **Enable Spark** : Yes
 # * **Kernel** : Python 3
 # * **Schedule** : Manual
 # * **Engine Profile** : 1 vCPU / 2 GiB
@@ -41,6 +42,7 @@
 # * **Script** : 4_train_models.py
 # * **Arguments** : 5 lbfgs 100 _(these the cv, solver and max_iter parameters to be passed to
 # LogisticRegressionCV() function)
+# * **Enable Spark** : Yes
 # * **Kernel** : Python 3
 # * **Engine Profile** : 1 vCPU / 2 GiB
 
