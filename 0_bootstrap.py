@@ -47,7 +47,7 @@ cml = CMLBootstrap()
 try : 
   storage=os.environ["STORAGE"]
 except:
-  storage = cml.get_cloud_storage()
+  storage = f"{cml.get_cloud_storage()}/test-data/cml-hol/{os.environ['HADOOP_USER_NAME']}"
   storage_environment_params = {"STORAGE":storage}
   storage_environment = cml.create_environment_variable(storage_environment_params)
   os.environ["STORAGE"] = storage
