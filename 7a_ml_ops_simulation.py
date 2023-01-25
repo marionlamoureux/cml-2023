@@ -111,7 +111,7 @@ import copy
 # Get the model id from the model you deployed in step 5. These are unique to each 
 # model on CML.
 
-model_id = "63"
+model_id = "7"
 
 # Grab the data from Hive.
 from pyspark.sql import SparkSession
@@ -122,7 +122,8 @@ spark = SparkSession\
     .master("local[*]")\
     .getOrCreate()
 
-df = spark.sql("SELECT * FROM default.telco_churn").toPandas()
+database_name = os.environ["HOL_DATABASE_NAME"]
+df = spark.sql(f"SELECT * FROM {database_name}.telco_churn").toPandas()
 
 # Get the various Model CRN details
 HOST = os.getenv("CDSW_API_URL").split(":")[0] + "://" + os.getenv("CDSW_DOMAIN")
