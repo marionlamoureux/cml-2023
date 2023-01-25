@@ -143,28 +143,42 @@ telco_data.coalesce(1).write.csv(
     header=True
 )
 
+try:
+  database_name = os.environ["HOL_DATABASE_NAME"]
+except:
+  database_name = "hol_" + os.environ["HADOOP_USER_NAME"].replace('.', '')
+  database_name_environment_params = {"HOL_DATABASE_NAME":database_name}
+  cml.create_environment_variable(database_name_environment_params)
+  os.environ["HOL_DATABASE_NAME"] = database_name
+
 spark.sql("show databases").show()
 
-spark.sql("show tables in default").show()
+if (database_name not in list(spark.sql("show databases").toPandas()['databaseName'])):
+  print(f"Creating database '{database_name}'")
+  spark.sql(f"CREATE DATABASE {database_name}")
+
+spark.sql(f"show tables in {database_name}").show()
 
 # Create the Hive table
 # This is here to create the table in Hive used be the other parts of the project, if it
 # does not already exist.
 
-if ('telco_churn' not in list(spark.sql("show tables in default").toPandas()['tableName'])):
-    print("creating the telco_churn database")
+table_name = "telco_churn"
+
+if (table_name not in list(spark.sql(f"show tables in {database_name}").toPandas()['tableName'])):
+    print(f"Creating table '{table_name}' in database '{database_name}'")
     telco_data\
         .write.format("parquet")\
         .mode("overwrite")\
         .saveAsTable(
-            'default.telco_churn'
+            f"{database_name}.{table_name}"
         )
 
 # Show the data in the hive table
-spark.sql("select * from default.telco_churn").show()
+spark.sql(f"select * from {database_name}.{table_name}").show()
 
 # To get more detailed information about the hive table you can run this:
-spark.sql("describe formatted default.telco_churn").toPandas()
+spark.sql(f"describe formatted {database_name}.telco_churn").toPandas()
 
 # Other ways to access data
 
