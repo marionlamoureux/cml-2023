@@ -1,19 +1,21 @@
 # Churn Prediction Prototype
 This project is a Cloudera Machine Learning 
 ([CML](https://www.cloudera.com/products/machine-learning.html)) **Applied Machine Learning 
-Project Prototype**. It has all the code and data needed to deploy an end-to-end machine 
-learning project in a running CML instance.
+Project Prototype** ([AMP](https://cloudera.github.io/Applied-ML-Prototypes/)). It has all
+the code and data needed to deploy an end-to-end machine learning project in a running CML
+instance.
 
 ## Project Overview
-This project builds the telco churn with model interpretability project discussed in more 
+This project builds the "telco churn with model interpretability" project discussed in more
 detail [this blog post](https://blog.cloudera.com/visual-model-interpretability-for-telco-churn-in-cloudera-data-science-workbench/). 
 The initial idea and code comes from the FFL Interpretability report which is now freely 
 available and you can read the full report [here](https://ff06-2020.fastforwardlabs.com/)
 
 ![table_view](images/table_view.png)
 
-The goal is to build a classifier model using Logistic Regression to predict the churn 
-probability for a group of customers from a telecoms company. On top that, the model 
+The goal is to build a classifier model using Logistic Regression to predict the
+probability that individual customers of a telecoms company will "churn", i.e. will
+cancel their contracts and stop being customers. On top that, the model
 can then be interpreted using [LIME](https://github.com/marcotcr/lime). Both the Logistic 
 Regression and LIME models are then deployed using CML's real-time model deployment 
 capability and finally a basic flask based web application is deployed that will let 
@@ -42,15 +44,15 @@ complete project.
 
 Open the file `0_bootstrap.py` in a normal workbench python3 session. You only need a 
 1 vCPU / 2 GiB instance. Once the session is loaded, click **Run > Run All Lines**. 
-This will file will create an Environment Variable for the project called **STORAGE**, 
-which is the root of default file storage location for the Hive Metastore in the 
+This will create an Environment Variable for the project called **STORAGE**,
+based on the default file storage location for the Hive Metastore in the
 DataLake (e.g. `s3a://my-default-bucket`). It will also upload the data used in the 
 project to `$STORAGE/datalake/data/churn/`. The original file comes as part of this 
 git repo in the `raw` folder.
   
 ***Deploy the Complete Project***
 
-If you just wish build the project artifacts without going through each step manually, 
+If you wish to just build the project artifacts without going through each step manually,
 run the `9_build_projet.py` file in a python3 session. Again a 1 vCPU / 2 GiB instance 
 will be suffient. This script will: 
 * run the bootstrap
@@ -59,6 +61,7 @@ will be suffient. This script will:
 * update the application files to use this new model
 * deploy the application
 * run the model drift simulation
+
 Once the script has completed you will see the new model and application are now available 
 in the project.
 
@@ -110,10 +113,10 @@ named `telco_linear`.
 
 There are 2 other ways of running the model training process
 
-***1. Jobs***
+#### 1. Jobs
 
 The **[Jobs](https://docs.cloudera.com/machine-learning/cloud/jobs-pipelines/topics/ml-creating-a-job.html)**
-feature allows for adhoc, recurring and depend jobs to run specific scripts. To run this model 
+feature allows for adhoc, recurring and dependent jobs to run specific scripts. To run this model
 training process as a job, create a new job by going to the Project window and clicking _Jobs >
 New Job_ and entering the following settings:
 * **Name** : Train Mdoel
@@ -122,28 +125,32 @@ New Job_ and entering the following settings:
 * **Kernel** : Python 3
 * **Schedule** : Manual
 * **Engine Profile** : 1 vCPU / 2 GiB
+
 The rest can be left as is. Once the job has been created, click **Run** to start a manual 
 run for that job.
 
-***2. Experiments***
+#### 2. Experiments
 
-The other option is running an **[Experiment](https://docs.cloudera.com/machine-learning/cloud/experiments/topics/ml-running-an-experiment.html)**. Experiments run immediately and are used for testing different parameters in a model training process. In this instance it would be use for hyperparameter optimisation. To run an experiment, from the Project window click Experiments > Run Experiment with the following settings.
+The other option is running an **[Experiment](https://docs.cloudera.com/machine-learning/cloud/experiments/topics/ml-running-an-experiment.html)**.
+Experiments run immediately and are used for testing different parameters in a
+model training process. In this instance it would be use for hyperparameter
+optimisation. To run an experiment, from the Project window click _Experiments
+> Run Experiment_ with the following settings:
 * **Script** : 4_train_models.py
-* **Arguments** : 5 lbfgs 100 _(these the cv, solver and max_iter parameters to be passed to 
-LogisticRegressionCV() function)
+* **Arguments** : 5 lbfgs 100 _(these are the cv, solver and max_iter
+parameters to be passed to LogisticRegressionCV() function)_
 * **Kernel** : Python 3
 * **Engine Profile** : 1 vCPU / 2 GiB
 
 Click **Start Run** and the expriment will be sheduled to build and run. Once the Run is 
 completed you can view the outputs that are tracked with the experiment using the 
-`cdsw.track_metrics` function. It's worth reading through the code to get a sense of what 
-all is going on.
-
+`cdsw.track_metrics` function. Please read through the code to get a sense of
+the steps involved.
 
 ### 5 Serve Model
 The **[Models](https://docs.cloudera.com/machine-learning/cloud/models/topics/ml-creating-and-deploying-a-model.html)** 
-is used top deploy a machine learning model into production for real-time prediction. To 
-deploy the model trailed in the previous step, from  to the Project page, click **Models > New
+is used to deploy a machine learning model into production for real-time prediction. To
+deploy the model trailed in the previous step, from the Project page, click **Models > New
 Model** and create a new model with the following details:
 
 * **Name**: Explainer
@@ -188,18 +195,26 @@ Once the model is deployed, you must disable the additional model authentication
 ![disable_auth](images/disable_auth.png)
 
 ### 6 Deploy Application
-The next step is to deploy the Flask application. The **[Applications](https://docs.cloudera.com/machine-learning/cloud/applications/topics/ml-applications.html)** feature is still quite new for CML. For this project it is used to deploy a web based application that interacts with the underlying model created in the previous step.
+The next step is to deploy the Flask
+[Application](https://docs.cloudera.com/machine-learning/cloud/applications/topics/ml-applications.html).
+[Flask](https://flask.palletsprojects.com/) is a lightweight Python framework
+for creating websites and apps. In this project, we use it to create a web
+based application that interacts with the underlying model created in the
+previous step.
 
 _**Note: This next step is important**_
 
 _In the deployed model from step 5, go to **Model > Settings** and make a note (i.e. copy) the 
-"Access Key". It will look something like this (ie. mukd9sit7tacnfq2phhn3whc4unq1f38)_
+"Access Key". It will be a random, 32-character string of letters and numbers;
+something like this: mukd9sit7tacnfq2phhn3whc4unq1f38._
 
-_From the Project level click on "Open Workbench" (note you don't actually have to Launch a 
-session) in order to edit a file. Select the flask/single_view.html file and paste the Access 
-Key in at line 19._
+_From the Project level click on "Open Workbench" in order to edit a file (note
+you don't actually have to Launch a Session). Within the `flask/` directory,
+select the file called `single_view.html`. Within that file, find line 19; you
+will see where a variable called `accessKey` is defined. Paste in your own
+access key:_
 
-`        const accessKey = "mp3ebluylxh4yn5h9xurh1r0430y76ca";`
+`        const accessKey = "mukd9sit7tacnfq2phhn3whc4unq1f38";`
 
 _Save the file (if it has not auto saved already) and go back to the Project._
 
@@ -211,11 +226,11 @@ pick a more random subdomain name)_
 * **Kernel**: Python 3
 * **Engine Profile**: 1vCPU / 2 GiB Memory
 
-
 After the Application deploys, click on the blue-arrow next to the name. The initial view is a 
 table of randomly selected from the dataset. This shows a global view of which features are 
-most important for the predictor model. The reds show incresed importance for preditcting a 
-cusomter that will churn and the blues for for customers that will not.
+most important for the predictor model. The red cells indicate values which are
+more important for predicting whether a customer will churn, while the blue
+cells indicate less important values.
 
 ![table_view](images/table_view.png)
 
@@ -226,28 +241,31 @@ churn prediction.
 
 ![single_view_1](images/single_view_1.png)
 
-Changing the InternetService to DSL lowers the probablity of churn. *Note: this does not mean 
-that changing the Internet Service to DSL cause the probability to go down, this is just what 
-the model would predict for a customer with those data points*
-
+Changing the InternetService to DSL lowers the predicted probablity of that
+customer leaving the service.
 
 ![single_view_2](images/single_view_2.png)
 
 ### 7 Model Operations
-The final step is the model operations which consists of [Model Metrics](https://docs.cloudera.com/machine-learning/cloud/model-metrics/topics/ml-enabling-model-metrics.html)
-and [Model Governance](https://docs.cloudera.com/machine-learning/cloud/model-governance/topics/ml-enabling-model-governance.html)
+The final step is the model operations which consists of
+[Model Metrics](https://docs.cloudera.com/machine-learning/cloud/model-metrics/topics/ml-enabling-model-metrics.html)
+and [Model Governance](https://docs.cloudera.com/machine-learning/cloud/model-governance/topics/ml-enabling-model-governance.html).
 
 **Model Governance** is setup in the `0_bootstrap.py` script, which writes out the lineage.yml file at
-the start of the project. For the **Model Metrics** open a workbench session (1 vCPU / 2 GiB) and open the
-`7a_ml_ops_simulation.py` file. You need to set the `model_id` number from the model created in step 5 on line
-113. The model number is on the model's main page.
+the start of the project. For **Model Metrics**, open a workbench session (1 vCPU / 2 GiB) and open the
+`7a_ml_ops_simulation.py` file. You need to set the `model_id` number on line
+113 of this file to the ID number of your own model, deployed in step 5. The
+model number is shown on the model's main page:
 
 ![model_id](images/model_id.png)
 
 `model_id = "95"`
 
-From there, run the file. This goes through a process of simulating an model that drifts over 
-over 1000 calls to the model. The file contains comments with details of how this is done.
+From there, run the file. This goes through a process of simulating 1,000 calls
+to the model, over which time the model "drifts", i.e. the accuracy goes down.
+In practice, this may happen due to changes in the real-world context to which
+the model's predictions apply. The file contains comments detailing how the
+drift is simulated.
 
 In the next step you can interact and display the model metrics. Open a workbench 
 session (1 vCPU / 2 GiB) and open and run the `7b_ml_ops_visual.py` file. Again you 
@@ -255,4 +273,3 @@ need to set the `model_id` number from the model created in step 5 on line 53.
 The model number is on the model's main page.
 
 ![model_accuracy](images/model_accuracy.png)
-
