@@ -125,6 +125,7 @@ New Job_ and entering the following settings:
 * **Kernel** : Python 3
 * **Schedule** : Manual
 * **Engine Profile** : 1 vCPU / 2 GiB
+* **Spark Enabled** : Yes
 
 The rest can be left as is. Once the job has been created, click **Run** to start a manual 
 run for that job.
