@@ -156,6 +156,7 @@ Model** and create a new model with the following details:
 
 * **Name**: Explainer
 * **Description**: Explain customer churn prediction
+* **Disable** authentification
 * **File**: 5_model_serve_explainer.py
 * **Function**: explain
 * **Input**: 
@@ -183,7 +184,9 @@ Model** and create a new model with the following details:
 }
 ```
 * **Kernel**: Python 3
+* **Enable Spark**: No
 * **Engine Profile**: 1vCPU / 2 GiB Memory
+
 
 Leave the rest unchanged. Click **Deploy Model** and the model will go through the build 
 process and deploy a REST endpoint. Once the model is deployed, you can test it is working 
