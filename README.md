@@ -119,7 +119,7 @@ The **[Jobs](https://docs.cloudera.com/machine-learning/cloud/jobs-pipelines/top
 feature allows for adhoc, recurring and dependent jobs to run specific scripts. To run this model
 training process as a job, create a new job by going to the Project window and clicking _Jobs >
 New Job_ and entering the following settings:
-* **Name** : Train Mdoel
+* **Name** : Train Model
 * **Script** : 4_train_models.py
 * **Arguments** : _Leave blank_
 * **Kernel** : Python 3
