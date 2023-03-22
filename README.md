@@ -35,7 +35,7 @@ Notes that are *specific to CML* will be emphasized in **block quotes**.
 
 ### Initialize the Project
 There are a couple of steps needed at the start to configure the Project and Workspace 
-settings so each step will run sucessfully. You **must** run the project bootstrap 
+settings so each step will run successfully. You **must** run the project bootstrap 
 before running other steps. If you just want to launch the model interpretability 
 application without going through each step manually, then you can also deploy the 
 complete project. 
@@ -54,7 +54,7 @@ git repo in the `raw` folder.
 
 If you wish to just build the project artifacts without going through each step manually,
 run the `9_build_projet.py` file in a python3 session. Again a 1 vCPU / 2 GiB instance 
-will be suffient. This script will: 
+will be sufficient. This script will: 
 * run the bootstrap
 * then create the Hive Table and import the data
 * deploy the model
@@ -68,14 +68,14 @@ in the project.
 ## Project Build
 If you want go through each of the steps manually to build and understand how the project 
 works, follow the steps below. There is a lot more detail and explanation/comments in each 
-of the files/notebooks so its worth looking into those. Follow the steps below and you 
+of the files/notebooks so it's worth looking into those. Follow the steps below and you 
 will end up with a running application.
 
 ### 0 Bootstrap
 Just to reiterate that you have run the bootstrap for this project before anything else. 
 So make sure you run step 0 first. 
 
-Open the file `0_bootstrap.py` in a normal workbench python3 session. You only need a 
+Open the file `0_bootstrap.py` in a normal workbench Python3 session. You only need a 
 1 CPU / 2 GB instance. Then **Run > Run All Lines**
 
 ### 1 Ingest Data
@@ -85,7 +85,7 @@ during the bootstrap and create a managed table in Hive. This is all done using 
 Open `1_data_ingest.py` in a Workbench session: python3, 1 CPU, 2 GB. Run the file.
 
 ### 2 Explore Data
-This is a Jupyter Notebook that does some basic data exploration and visualistaion. It 
+This is a Jupyter Notebook that does some basic data exploration and visualisation. It 
 is to show how this would be part of the data science workflow.
 
 ![data](images/data.png)
@@ -116,7 +116,7 @@ There are 2 other ways of running the model training process
 #### 1. Jobs
 
 The **[Jobs](https://docs.cloudera.com/machine-learning/cloud/jobs-pipelines/topics/ml-creating-a-job.html)**
-feature allows for adhoc, recurring and dependent jobs to run specific scripts. To run this model
+feature allows for ad hoc, recurring and dependent jobs to run specific scripts. To run this model
 training process as a job, create a new job by going to the Project window and clicking _Jobs >
 New Job_ and entering the following settings:
 * **Name** : Train Model
@@ -143,7 +143,7 @@ parameters to be passed to LogisticRegressionCV() function)_
 * **Kernel** : Python 3
 * **Engine Profile** : 1 vCPU / 2 GiB
 
-Click **Start Run** and the expriment will be sheduled to build and run. Once the Run is 
+Click **Start Run** and the experiment will be scheduled to build and run. Once the Run is 
 completed you can view the outputs that are tracked with the experiment using the 
 `cdsw.track_metrics` function. Please read through the code to get a sense of
 the steps involved.
@@ -156,7 +156,7 @@ Model** and create a new model with the following details:
 
 * **Name**: Explainer
 * **Description**: Explain customer churn prediction
-* **Disable** authentification
+* **Disable** authentication
 * **File**: 5_model_serve_explainer.py
 * **Function**: explain
 * **Input**: 
@@ -190,7 +190,7 @@ Model** and create a new model with the following details:
 
 Leave the rest unchanged. Click **Deploy Model** and the model will go through the build 
 process and deploy a REST endpoint. Once the model is deployed, you can test it is working 
-from the model Model Overview page.
+from the Model Overview page.
 
 _**Note: This is important**_
 
@@ -202,8 +202,7 @@ Once the model is deployed, you must disable the additional model authentication
 The next step is to deploy the Flask
 [Application](https://docs.cloudera.com/machine-learning/cloud/applications/topics/ml-applications.html).
 [Flask](https://flask.palletsprojects.com/) is a lightweight Python framework
-for creating websites and apps. In this project, we use it to create a web
-based application that interacts with the underlying model created in the
+for creating websites and apps. In this project, we use it to create a web-based application that interacts with the underlying model created in the
 previous step.
 
 _**Note: This next step is important**_
@@ -245,7 +244,7 @@ churn prediction.
 
 ![single_view_1](images/single_view_1.png)
 
-Changing the InternetService to DSL lowers the predicted probablity of that
+Changing the Internet Service to DSL lowers the predicted probability of that
 customer leaving the service.
 
 ![single_view_2](images/single_view_2.png)
