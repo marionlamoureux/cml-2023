@@ -217,18 +217,18 @@ explainer = LimeTabularExplainer(ce.transform(data),
 
 
 # Create and save the combined Logistic Regression and LIME Explained Model.
-explainedmodel = ExplainedModel(data=data, labels=labels, model_name='telco_linear',
+explainedmodel = ExplainedModel(data=data, labels=labels,
                                 categoricalencoder=ce, pipeline=pipe,
-                                explainer=explainer, data_dir=data_dir)
-explainedmodel.save()
+                                explainer=explainer)
+explainedmodel.save(model_name='telco_linear')
 
 
 # If running as as experiment, this will track the metrics and add the model trained in this
 # training run to the experiment history.
 cdsw.track_metric("train_score", round(train_score, 2))
 cdsw.track_metric("test_score", round(test_score, 2))
-cdsw.track_metric("model_path", explainedmodel.model_path)
-cdsw.track_file(explainedmodel.model_path)
+#cdsw.track_metric("model_path", explainedmodel.model_path)
+#cdsw.track_file(explainedmodel.model_path)
 
 # Wrap up
 
