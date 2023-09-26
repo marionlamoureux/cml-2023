@@ -164,7 +164,7 @@ import cdsw, numpy
 from churnexplainer import ExplainedModel
 
 #Load the model save earlier.
-em = ExplainedModel(model_name='telco_linear',data_dir='/home/cdsw')
+em = ExplainedModel("telco_linear")
 
 # *Note:* If you want to test this in a session, comment out the line 
 #`@cdsw.model_metrics` below. Don't forget to uncomment when you
