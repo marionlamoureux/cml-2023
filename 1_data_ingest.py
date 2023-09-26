@@ -153,7 +153,7 @@ except:
 
 spark.sql("show databases").show()
 
-if (database_name not in list(spark.sql("show databases").toPandas()['databaseName'])):
+if (database_name not in list(spark.sql("show databases").toPandas()['namespace'])):
   print(f"Creating database '{database_name}'")
   spark.sql(f"CREATE DATABASE {database_name}")
 
