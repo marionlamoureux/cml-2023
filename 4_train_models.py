@@ -215,7 +215,6 @@ explainer = LimeTabularExplainer(ce.transform(data),
                                  categorical_features=categorical_features,
                                  categorical_names=categorical_names)
 
-
 # Create and save the combined Logistic Regression and LIME Explained Model.
 explainedmodel = ExplainedModel(data=data, labels=labels,
                                 categoricalencoder=ce, pipeline=pipe,
