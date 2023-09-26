@@ -1,2 +1,2 @@
 #!/bin/bash
-pip3 install --proxy=$PROXY -r requirements.txt
+pip3 install -r requirements.txt
